@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
+
+    <?php include 'includes/navbar.php'; ?>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
