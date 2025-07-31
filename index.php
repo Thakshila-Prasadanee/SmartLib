@@ -13,21 +13,14 @@
 </head>
 <body>
 
-    <?php include 'includes/navbar.php'; ?>
+    <!-- Call navbar -->
+    <?php include 'includes/navbar.php' ?>
 
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
-                <h1 class="display-4 mb-4">
-                    <i class="bi bi-book text-primary"></i> SmartLib
-                </h1>
-                <p class="lead">Welcome to the SmartLib Digital Library Management System</p>
-                <hr class="my-4">
-                <p>This is the initial setup page. You can now create your homepage and other components.</p>
-            </div>
-        </div>
-    </div>
+    <!-- Add homepage -->
+    <?php include 'user/homepage.php'; ?>
 
+    <!-- Footer -->
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

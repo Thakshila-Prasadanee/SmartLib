@@ -6,19 +6,19 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 
 <style>
-    /* Navbar styles */
+    
     .navbar-color {
-        background-color: rgba(0, 0, 0, 0.5); /* Dark color for the navbar */
-        padding: 0.8rem 0;
+        background-color: rgba(0, 0, 0, 0.5); 
+        padding: 0.4rem 0;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .nav-item .nav-link {
-        color: #ffffff; /* White text for links */
+        color: #ffffff;
     }
 
     .navbar-toggler:hover .bi-list {
-        color: #183130 !important; /* Change color on hover */
+        color: #183130 !important;
     }
 
     .navbar-toggler:focus {
@@ -33,7 +33,7 @@ if (session_status() === PHP_SESSION_NONE) {
     }
 
     .navbar-nav .nav-link:hover {
-        color: #163839 !important; /* Change color on hover */
+        color: #163839 !important;
     }
 
     .btn-signup {
@@ -103,7 +103,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="assets/logo.png" alt="SmartLib Logo" width="100" height="50" class="me-2">
+            <img src="assets/logo.svg" alt="SmartLib Logo" width="120" height="60" class="me-2">
         </a>
 
         <!-- Mobile Toggle -->
@@ -113,7 +113,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
@@ -136,7 +136,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="<?= $_SESSION['profile_img'] ?? 'assets/profile.jpg'; ?>" 
-                                 alt="Profile" width="40" height="40" class="rounded-circle border border-2 border-white">
+                                 alt="Profile" width="50" height="50" class="rounded-circle border border-2 border-white">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>
