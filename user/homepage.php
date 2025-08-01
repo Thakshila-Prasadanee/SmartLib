@@ -164,6 +164,8 @@ if (session_status() === PHP_SESSION_NONE) {
     }
 </style>
 
+<?php include 'includes/navbar.php'; ?>
+
 <!-- Hero Section -->
 <section class="hero-section d-flex align-items-center text-white">
     <div class="container text-center">
@@ -190,7 +192,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 </section>
 
-<section class="about-section">
+<section id="about-section" class="about-section">
     <div class="container">
         <div class="row align-items-center">
             <!-- Text Content -->
@@ -288,3 +290,5 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 </section>
+
+<?php include 'includes/footer.php'; ?>
