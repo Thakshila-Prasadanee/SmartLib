@@ -17,10 +17,10 @@
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" data-bs-theme="dark" >
             <a class="navbar-brand" href="#"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
-            <button style="margin-top: -20px;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <button style="margin-top: -20px;" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenue">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end mx-4" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse justify-content-end mx-4" >
               <ul class="navbar-nav" style="margin-top: -20px;">
                 <li class="nav-item">
                   <a class="nav-link" href="#"><span style="color: white;">Home</span></a>
@@ -43,6 +43,38 @@
               </ul>
             </div>
           </nav>
+
+        <div class="offcanvas offcanvas-start" style="background-color:#524E4E;" tabindex="-1" id="mobileMenue" aria-labelledby="offcanvasExampleLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <a class="navbar-brand" href="#"><img style="height: 90px;  margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+           <div class="offcanvas-body">
+             <ul class="navbar-nav" style="margin-top: -20px;">
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><span style="color: white;">Home</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><span style="color: white;">History</span></a>
+                </li>
+                <li class="nav-item">
+                <!-- Search -->
+                <div class="d-flex mb-1"   role="search">
+                  <input class="form-control me-2" type="search" style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white;" placeholder="Search ..." aria-label="Search"/>
+                  <i class="fa-solid fa-magnifying-glass " style="margin-top:10px; width:50px;color:#ffffff;  position: absolute; "></i>
+                </div>
+                <!-- Search -->
+                </li>
+                <li class="nav-item">
+                  <input class="btn btn-secondary" style="background-color: #8F8484; color: white; border:2px solid white;" type="button" value="Generate history pdf">
+                  <input class="btn btn-secondary " style="background-color: #FF000D; color: white; border:2px solid white;" type="button" value="LogOut">
+                </li>
+              </ul>
+           </div>
+        </div>
+
         </div>
       </div>
     </div>
