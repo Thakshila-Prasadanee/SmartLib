@@ -31,7 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
     .hero-section {
         position: relative;
-        height: 90vh;
+        height: 100vh;
         background: url('assets/hero.avif') center center/cover no-repeat;
         display: flex;
         justify-content: center;
@@ -196,7 +196,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="container">
         <div class="row align-items-center">
             <!-- Text Content -->
-            <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
                 <h2>About the Library</h2>
                 <p>
                     Welcome to SmartLib, your intelligent and accessible library portal. 
@@ -206,7 +206,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
             <!-- Image Content -->
             <div class="col-lg-6 text-center">
-                <img src="assets/about.avif" alt="About Library" class="img-fluid">
+                <img src="assets/about.avif" alt="About Library" data-aos="fade-left" class="img-fluid">
             </div>
         </div>
     </div>
@@ -223,7 +223,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <!-- Feature Grid -->
         <div class="row g-4">
             <!-- Feature 1 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature1.avif" alt="Easy Book Management">
                     <div class="feature-card-body">
@@ -234,7 +234,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Feature 2 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature2.avif" alt="Secure Role Access">
                     <div class="feature-card-body">
@@ -245,7 +245,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Feature 3 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature3.avif" alt="QR Code Integration">
                     <div class="feature-card-body">
@@ -256,7 +256,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Feature 4 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature4.avif" alt="PDF Report Generation">
                     <div class="feature-card-body">
@@ -267,7 +267,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Feature 5 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature5.avif" alt="Responsive Web Design">
                     <div class="feature-card-body">
@@ -278,7 +278,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Feature 6 -->
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="feature-card">
                     <img src="assets/feature6.avif" alt="Advanced Book Search">
                     <div class="feature-card-body">
