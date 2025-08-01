@@ -16,9 +16,7 @@
     }
 
     .footer-logo img {
-        max-width: 180px;
-        height: 50px;
-        margin-bottom: 15px;
+        height: 80px;
         object-fit: contain;
     }
 
@@ -203,8 +201,7 @@
         }
             
         .footer-logo img {
-            max-width: 150px;
-            height: 40px;
+            height: 80px;
         }
     }
 
@@ -237,8 +234,7 @@
         }
             
         .footer-logo img {
-            max-width: 130px;
-            height: 35px;
+            height: 80px;
         }
             
         .footer-contact i {
@@ -293,7 +289,7 @@
             <!-- Main Column with Logo and Description -->
             <div class="footer-main">
                 <div class="footer-logo">
-                    <img src="assets/logo.png" alt="SmartLib Logo">
+                    <img src="images/logo.svg" alt="SmartLib Logo">
                 </div>
                 <p class="footer-description">
                     Our Library Management System simplifies the way you organize, manage, and enjoy books. 
