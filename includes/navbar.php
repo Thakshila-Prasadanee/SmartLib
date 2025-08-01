@@ -121,10 +121,10 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a class="nav-link" href="books.php">Our Books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.php">About Us</a>
+                    <a class="nav-link" href="#about-section">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact Us</a>
+                    <a class="nav-link" href="#footer-section">Contact Us</a>
                 </li>
             </ul>
 
