@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
         left: 0;
         width: 100%;
         z-index: 1050;
+        height: 80px;
     }
 
     .navbar-color {
