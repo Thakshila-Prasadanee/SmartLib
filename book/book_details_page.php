@@ -1,3 +1,34 @@
+<?php
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$db_name = 'smartlib';
+$conn = mysqli_connect($host, $username, $password, $db_name);
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
+    $book_id = intval($_GET['book_id']); // prevent SQL injection
+    $query = "SELECT * FROM books WHERE book_id = $book_id";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    $book = mysqli_fetch_assoc($result); // ✅ fetch row as an associative array
+
+    if (!$book) {
+        die("Book not found!");
+    }
+} else {
+    die("Invalid book ID");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,6 +111,20 @@
     </div>
   </header>
 <!-- navbar -->
+
+  <section class="container-fluid my-md-4 my-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="<?php echo htmlspecialchars($book['image_url']); ?>" style="width: 100%;" alt="Book Cover">
+        </div>
+        <div class="col-md-6" >
+          <h1><?php echo htmlspecialchars($book['title']); ?></h1>
+          <p><?php echo htmlspecialchars($_GET['category']); ?></p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>

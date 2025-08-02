@@ -120,14 +120,16 @@
             <div class="container mt-4">
               <div class="row">
                 <?php
-                $query = "SELECT image_url FROM `books` WHERE category_id = 3;";
+                $query = "SELECT image_url , book_id FROM `books` WHERE category_id = 3;";
                 $result = mysqli_query($conn, $query);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
                     echo "<div class='col-md-3 mb-4'>
                             <div class='card h-100'>
-                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                <a href='book_details_page.php?book_id=".$x['book_id']."&category=Fairy Tales'>
+                                  <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                </a>
                             </div>
                           </div>";
                   }
@@ -150,14 +152,16 @@
             <div class="container mt-4">
               <div class="row">
                 <?php
-                $query = "SELECT image_url FROM `books` WHERE category_id = 4;";
+                $query = "SELECT image_url ,book_id FROM `books` WHERE category_id = 4;";
                 $result = mysqli_query($conn, $query);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
                     echo "<div class='col-md-3 mb-4'>
                             <div class='card h-100'>
-                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
+                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               </a>
                             </div>
                           </div>";
                   }
@@ -180,14 +184,16 @@
             <div class="container mt-4">
               <div class="row">
                 <?php
-                $query = "SELECT image_url FROM `books` WHERE category_id = 2;";
+                $query = "SELECT image_url , book_id FROM `books` WHERE category_id = 2;";
                 $result = mysqli_query($conn, $query);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
                     echo "<div class='col-md-3 mb-4'>
                             <div class='card h-100'>
-                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=A Pet's Tale'>
+                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               </a>
                             </div>
                           </div>";
                   }
@@ -210,14 +216,16 @@
             <div class="container mt-4">
               <div class="row">
                 <?php
-                $query = "SELECT image_url FROM `books` WHERE category_id = 1;";
+                $query = "SELECT image_url , book_id FROM `books` WHERE category_id = 1;";
                 $result = mysqli_query($conn, $query);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
                     echo "<div class='col-md-3 mb-4'>
                             <div class='card h-100'>
-                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                              <a href='book_details_page.php?book_id=".$x['book_id']."&category=Adventure'>
+                               <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                              </a>
                             </div>
                           </div>";
                   }
@@ -240,14 +248,16 @@
             <div class="container mt-4">
               <div class="row">
                 <?php
-                $query = "SELECT image_url FROM `books` WHERE category_id = 5;";
+                $query = "SELECT image_url , book_id FROM `books` WHERE category_id = 5;";
                 $result = mysqli_query($conn, $query);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
                     echo "<div class='col-md-3 mb-4'>
                             <div class='card h-100'>
-                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Mystery'>
+                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                               </a>
                             </div>
                           </div>";
                   }
