@@ -46,17 +46,17 @@ if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
       <div class="row  m-0 mb-2 p-0">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" data-bs-theme="dark" >
-            <a class="navbar-brand" href="#"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
+            <a class="navbar-brand" href="../"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
             <button style="margin-top: -20px;" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenue">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end mx-4" >
               <ul class="navbar-nav" style="margin-top: -20px;">
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">Home</span></a>
+                  <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">History</span></a>
+                  <a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
@@ -115,15 +115,26 @@ if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="<?php echo htmlspecialchars($book['image_url']); ?>" style="width: 100%;" alt="Book Cover">
+          <img src="<?php echo htmlspecialchars($book['image_url']); ?>" style="width: 100%; height: 100%;" alt="Book Cover">
         </div>
         <div class="col-md-6" >
           <div class="border p-4" style="background-color:#8F8484; border-radius: 10px;">
             <h1><?php echo htmlspecialchars($book['title']); ?></h1>
             <h4><?php echo htmlspecialchars($_GET['category']); ?></h4>
           </div>
-          <div style="text-align: center; margin-top: 20px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo urlencode($book['isbn']); ?>" alt="QR Code" />
+          <div style="margin-top: 20px; width: 100%;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo urlencode($book['isbn']); ?>" alt="QR Code" style="width: 100%; height: auto;"/>
+          </div>
+          <div  style="margin-top: 20px; width: 100%;">
+            <p><?php echo $book['description'] ?></p>
+            <div class="row">
+                <div class="col-md-6">
+                <button class="btn" style="border-radius: 10px; background-color: #524E4E; color: white;"><?php echo ucfirst($book['status']); ?></button>
+              </div>
+              <div class="col-md-6">
+                <p>Written by : <span style="color:#D24BF0;"><?php echo $book['author']; ?></span></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
