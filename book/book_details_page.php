@@ -122,7 +122,9 @@ if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
             <h1><?php echo htmlspecialchars($book['title']); ?></h1>
             <h4><?php echo htmlspecialchars($_GET['category']); ?></h4>
           </div>
-          
+          <div style="text-align: center; margin-top: 20px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo urlencode($book['isbn']); ?>" alt="QR Code" />
+          </div>
         </div>
       </div>
     </div>
