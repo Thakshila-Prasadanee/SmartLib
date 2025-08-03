@@ -15,17 +15,17 @@
       <div class="row  m-0 mb-2 p-0">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" data-bs-theme="dark" >
-            <a class="navbar-brand" href="#"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
+            <a class="navbar-brand" href="../"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
             <button style="margin-top: -20px;" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenue">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end mx-4" >
               <ul class="navbar-nav" style="margin-top: -20px;">
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">Home</span></a>
+                  <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">History</span></a>
+                  <a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
