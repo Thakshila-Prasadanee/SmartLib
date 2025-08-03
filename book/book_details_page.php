@@ -37,8 +37,7 @@ if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
   <title>Book Details Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="media.css">
+
 </head>
 <body>
   <!-- navbar -->
@@ -119,8 +118,11 @@ if (isset($_GET['book_id']) && is_numeric($_GET['book_id'])) {
           <img src="<?php echo htmlspecialchars($book['image_url']); ?>" style="width: 100%;" alt="Book Cover">
         </div>
         <div class="col-md-6" >
-          <h1><?php echo htmlspecialchars($book['title']); ?></h1>
-          <p><?php echo htmlspecialchars($_GET['category']); ?></p>
+          <div class="border p-4" style="background-color:#8F8484; border-radius: 10px;">
+            <h1><?php echo htmlspecialchars($book['title']); ?></h1>
+            <h4><?php echo htmlspecialchars($_GET['category']); ?></h4>
+          </div>
+          
         </div>
       </div>
     </div>
