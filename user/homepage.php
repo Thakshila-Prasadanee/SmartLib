@@ -183,7 +183,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="d-flex justify-content-center gap-3">
             <?php if (!isset($_SESSION['user_id'])): ?>
                 <!-- Before Login -->
-                <a href="login.php" class="btn btn-dark btn-outline-light px-4 py-2">Login</a>
+                <a href="auth/login.php" class="btn btn-dark btn-outline-light px-4 py-2">Login</a>
             <?php endif; ?>
 
             <!-- Explore -->

@@ -162,7 +162,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </div>
                 <?php else: ?>
                     <!-- Before Login -->
-                    <a href="signup.php" class="btn btn-signup">Sign Up</a>
+                    <a href="auth/signup.php" class="btn btn-signup">Sign Up</a>
                 <?php endif; ?>
             </div>
         </div>
