@@ -6,10 +6,19 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 
 <style>
-    
+
+    .navbar{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1050;
+        height: 80px;
+    }
+
     .navbar-color {
         background-color: rgba(0, 0, 0, 0.5); 
-        padding: 0.4rem 0;
+        padding: 0.02rem 0;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
@@ -33,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) {
     }
 
     .navbar-nav .nav-link:hover {
-        color: #163839 !important;
+        color: #f1d791ff !important;
     }
 
     .btn-signup {
@@ -103,7 +112,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="assets/logo.svg" alt="SmartLib Logo" width="120" height="60" class="me-2">
+            <img src="images/logo.svg" alt="SmartLib Logo" height="90" class="me-2">
         </a>
 
         <!-- Mobile Toggle -->
@@ -118,13 +127,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="books.php">Our Books</a>
+                    <a class="nav-link" href="book/books_page.php">Our Books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.php">About Us</a>
+                    <a class="nav-link" href="#about-section">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact Us</a>
+                    <a class="nav-link" href="#footer-section">Contact Us</a>
                 </li>
             </ul>
 
