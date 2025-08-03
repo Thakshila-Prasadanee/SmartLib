@@ -24,6 +24,30 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
+    // ✅ Total Users
+    $user_query = "SELECT COUNT(user_id) AS total_users FROM users";
+    $user_result = mysqli_query($conn, $user_query) or die("User Query Failed: " . mysqli_error($conn));
+    $total_users = mysqli_fetch_assoc($user_result)['total_users'] ?? 0;
+
+    // ✅ Total Books
+    $book_query = "SELECT COUNT(book_id) AS total_books FROM books";
+    $book_result = mysqli_query($conn, $book_query) or die("Book Query Failed: " . mysqli_error($conn));
+    $total_books = mysqli_fetch_assoc($book_result)['total_books'] ?? 0;
+
+    // ✅ Borrowed Books (Books not returned yet)
+    $borrowed_query = "SELECT COUNT(record_id) AS borrowed_books FROM borrow_records WHERE return_date IS NULL";
+    $borrowed_result = mysqli_query($conn, $borrowed_query) or die("Borrowed Query Failed: " . mysqli_error($conn));
+    $borrowed_books = mysqli_fetch_assoc($borrowed_result)['borrowed_books'] ?? 0;
+
+    // ✅ Overdue Books (if you don't track due dates, mark overdue as not returned older than 14 days)
+    $overdue_query = "SELECT COUNT(record_id) AS overdue_books 
+                    FROM borrow_records 
+                    WHERE return_date IS NULL 
+                    AND borrow_date < DATE_SUB(CURDATE(), INTERVAL 14 DAY)";
+    $overdue_result = mysqli_query($conn, $overdue_query) or die("Overdue Query Failed: " . mysqli_error($conn));
+    $overdue_books = mysqli_fetch_assoc($overdue_result)['overdue_books'] ?? 0;
+
+
     // ✅ Fetch categories and their book count
     $category_query = "
         SELECT c.name AS category_name, COUNT(b.book_id) AS book_count
@@ -283,22 +307,22 @@
             <i class="bi bi-qr-code-scan" title="Scan"></i>
         </div>
         
-        <a href="#" class="active">
+        <a href="dashboard.php" class="active">
             <i class="bi bi-speedometer2"></i>
             <span>Dashboard</span>
         </a>
         
-        <a href="#">
+        <a href="book_management.php">
             <i class="bi bi-journal-bookmark-fill"></i>
             <span>Book Management</span>
         </a>
         
-        <a href="#">
+        <a href="borrow_management.php">
             <i class="bi bi-layers"></i>
             <span>Borrow Management</span>
         </a>
         
-        <a href="#">
+        <a href="user_management.php">
             <i class="bi bi-people"></i>
             <span>User Management</span>
         </a>
@@ -329,32 +353,33 @@
         <div class="row g-3 mb-3">
             <div class="col-md-3 col-6">
                 <div class="card-summary pink">
-                    10<br>
+                    <?= $total_users ?><br>
                     <small>Total Users</small>
                 </div>
             </div>
             
             <div class="col-md-3 col-6">
                 <div class="card-summary blue">
-                    20<br>
+                    <?= $total_books ?><br>
                     <small>Total Books</small>
                 </div>
             </div>
             
             <div class="col-md-3 col-6">
                 <div class="card-summary green">
-                    8<br>
+                    <?= $borrowed_books ?><br>
                     <small>Borrowed Books</small>
                 </div>
             </div>
             
             <div class="col-md-3 col-6">
                 <div class="card-summary purple">
-                    3<br>
+                    <?= $overdue_books ?><br>
                     <small>Overdue Books</small>
                 </div>
             </div>
         </div>
+
 
         <!-- Charts Row -->
         <div class="charts-row">
