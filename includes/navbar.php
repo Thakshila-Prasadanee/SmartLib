@@ -24,6 +24,41 @@ function getUserInitials($name) {
         return strtoupper(substr($name, 0, 2));
     }
 }
+
+// Function to get current user's profile image from database
+function getCurrentUserProfileImage($email) {
+    static $cached_image = null;
+    static $cached_email = null;
+    
+    // Return cached result if same email
+    if ($cached_email === $email && $cached_image !== null) {
+        return $cached_image;
+    }
+    
+    $host = 'localhost';
+    $username = 'root';
+    $password = '';
+    $db_name = 'smartlib';
+    $conn = mysqli_connect($host, $username, $password, $db_name);
+    
+    if ($conn) {
+        $stmt = $conn->prepare("SELECT profile_image FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result && $result->num_rows === 1) {
+            $user_data = $result->fetch_assoc();
+            $cached_image = $user_data['profile_image'];
+            $cached_email = $email;
+        }
+        
+        $stmt->close();
+        mysqli_close($conn);
+    }
+    
+    return $cached_image;
+}
 ?>
 
 <style>
@@ -199,10 +234,16 @@ function getUserInitials($name) {
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php
-                            // Check if user has profile image
-                            if (!empty($_SESSION['profile_image']) && file_exists($_SESSION['profile_image'])) {
+                            // Get fresh profile image from database
+                            $profile_image_path = null;
+                            if (isset($_SESSION['user'])) {
+                                $profile_image_path = getCurrentUserProfileImage($_SESSION['user']);
+                            }
+                            
+                            // Check if user has profile image and file exists
+                            if (!empty($profile_image_path) && file_exists('user/' . $profile_image_path)) {
                                 // Display actual profile image
-                                echo '<img src="' . htmlspecialchars($_SESSION['profile_image']) . '" 
+                                echo '<img src="user/' . htmlspecialchars($profile_image_path) . '" 
                                          alt="Profile" class="profile-img">';
                             } else {
                                 // Display random colored circle with initials
