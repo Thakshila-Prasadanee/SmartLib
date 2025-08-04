@@ -23,7 +23,7 @@ if (isset($_SESSION['admin_name'])) {
 
 // Determine appropriate redirect based on role or current location
 if ($user_role === 'admin') {
-    $redirect_path = '../auth/login.php';
+    $redirect_path = '../index.php';
     $logout_message = "Admin logout successful. Thank you for managing SmartLib!";
 } else {
     // For regular users, redirect to index page with logout success
