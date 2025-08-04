@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     $host = 'localhost';
     $username = 'root';
     $password= '';
@@ -36,7 +37,13 @@
                   <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>
+                  <?php 
+                    if(isset($_SESSION['name'])){
+                        echo '<a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>';
+                    }else{
+                        echo '<a class="nav-link" href="#" onclick="alert(\'Please Log in First\'); return false;"><span style="color: white;">History</span></a>';
+                    }
+                    ?>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
@@ -142,13 +149,23 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                                <a href='book_details_page.php?book_id=".$x['book_id']."&category=Fairy Tales'>
-                                  <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                                </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                     <a href='book_details_page.php?book_id=".$x['book_id']."&category=Fairy Tales'>
+                                       <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                     </a>
+                                 </div>
+                               </div>";
+                     } else {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                     <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                       <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                     </a>
+                                 </div>
+                               </div>";
+                     }
                   }
                 } else {
                   // Show 404 image if no results
@@ -174,13 +191,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                   <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
+                                     <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                   </a>
+                                 </div>
+                               </div>";
+                     } else {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                   <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                     <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                   </a>
+                                 </div>
+                               </div>";
+                     }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -206,13 +234,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=A Pet's Tale'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=A Pet&#39;s Tale'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -238,13 +277,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                              <a href='book_details_page.php?book_id=".$x['book_id']."&category=Adventure'>
-                               <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                              </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=Adventure'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -270,13 +320,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Mystery'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=Mystery'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results

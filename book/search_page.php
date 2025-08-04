@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     $host = 'localhost';
     $username = 'root';
     $password= '';
@@ -121,13 +122,24 @@
 
       if ($result && mysqli_num_rows($result) > 0) {
         while ($x = mysqli_fetch_assoc($result)) {
-          echo "<div class='col-md-3 mb-4'>
-                  <div class='card h-100'>
-                      <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
-                        <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                      </a>
-                  </div>
-                </div>";
+          if (isset($_SESSION['name'])) {
+                echo "<div class='col-md-3 mb-4'>
+                        <div class='card h-100'>
+                            <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
+                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                            </a>
+                        </div>
+                      </div>";
+            } else {
+                echo "<div class='col-md-3 mb-4'>
+                        <div class='card h-100'>
+                            <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                              <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                            </a>
+                        </div>
+                      </div>";
+            }
+
         }
       } else {
         // Show 404 image if no results
