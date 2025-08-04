@@ -1,6 +1,39 @@
 <?php
 session_start();
-require_once('../includes/connection.php'); // Your DB connection
+
+// Database connection
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$db_name = 'smartlib';
+
+// Create connection
+$conn = mysqli_connect($host, $username, $password, $db_name);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Select the database
+mysqli_select_db($conn, $db_name);
+
+// Create users table if not exists (with reset token fields)
+$user_table = "CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') DEFAULT 'user',
+    profile_image VARCHAR(255),
+    reset_token VARCHAR(255),
+    reset_expires DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+if (!mysqli_query($conn, $user_table)) {
+    die("Error creating users table: " . mysqli_error($conn));
+}
 
 $success = '';
 $error = '';

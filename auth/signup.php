@@ -186,7 +186,7 @@ a:hover {
         <button type="submit">Sign Up</button>
 
     </form>
-    <a href="/LibProj/SmartLib/auth/login.php">Already have an account? Log In</a>
+    <a href="../auth/login.php">Already have an account? Log In</a>
 </div>
 </body>
 </html>

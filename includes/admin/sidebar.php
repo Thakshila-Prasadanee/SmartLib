@@ -65,7 +65,7 @@
 
 <div class="sidebar" id="sidebar">
     <div class="logo-scanner">
-        <img src="../images/logo.svg" alt="SmartLib Logo">
+        <img src="images/logo.svg" alt="SmartLib Logo">
         <i class="bi bi-qr-code-scan" title="Scan"></i>
     </div>
 
@@ -89,7 +89,7 @@
         <span>User Management</span>
     </a>
 
-    <a href="logout.php">
+    <a href="admin/logout.php">
         <i class="bi bi-box-arrow-right"></i>
         <span>Logout</span>
     </a>
