@@ -130,91 +130,6 @@
             width: 100%; 
         }
 
-        .sidebar { 
-            background: #109994; 
-            width: 240px; 
-            color: #000; 
-            padding: 10px; 
-            position: fixed; 
-            top: 0; 
-            bottom: 0; 
-            left: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            transition: width 0.3s ease; 
-            z-index: 1000; 
-        }
-
-        .logo-scanner { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            width: 100%; 
-        }
-
-        .logo-scanner img { 
-            max-height: 80px; 
-            object-fit: contain; 
-        }
-
-        .logo-scanner i { 
-            font-size: 22px; 
-            color: #000; 
-            cursor: pointer; 
-            -webkit-text-stroke: 0.5px #000; 
-        }
-
-        .sidebar a { 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            text-decoration: none; 
-            color: #000; 
-            margin: 8px 0; 
-            padding: 8px; 
-            width: 100%; 
-            border-radius: 6px; 
-            transition: all 0.3s ease; 
-            font-size: 1.1rem; 
-            font-weight: 500; 
-        }
-
-        .sidebar a i { 
-            font-size: 1.4rem; 
-            -webkit-text-stroke: 0.7px #000; 
-        }
-
-        .sidebar a:hover, .sidebar a.active { 
-            background: rgba(255, 255, 255, 0.7); 
-            transform: translateX(5px); 
-        }
-
-        .top-header { 
-            background-color: #084D4A; 
-            color: #fff; 
-            padding: 12px 20px; 
-            position: fixed; 
-            left: 240px; 
-            right: 0; 
-            top: 0; 
-            z-index: 900; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-weight: 600; 
-            transition: left 0.3s ease; 
-            height: 60px; 
-        }
-
-        .admin-info { 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            font-size: 1rem; 
-        }
-
         .main-content { 
             margin-left: 240px; 
             padding: 80px 20px 20px; 
@@ -228,13 +143,19 @@
             font-weight: 600; 
             padding: 25px; 
             color: #fff; 
-            transition: transform 0.2s; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
             font-size: 2rem; 
             min-height: 120px; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15); 
+            cursor: pointer;
+        }
+
+        .card-summary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         .card-summary small { 
@@ -262,6 +183,13 @@
             border-radius: 10px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
             padding: 12px; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card-shadow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .charts-row { 
@@ -279,10 +207,35 @@
             flex-direction: column; 
             justify-content: center; 
             padding: 15px; 
+            background: #fff; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chart-card:hover, .pie-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         .chart-card canvas, .pie-card canvas { 
             max-height: 220px; 
+        }
+
+        .table-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .table-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         thead { 
@@ -301,50 +254,10 @@
 
 <div class="dashboard-container">
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="logo-scanner">
-            <img src="../images/logo.svg" alt="SmartLib Logo">
-            <i class="bi bi-qr-code-scan" title="Scan"></i>
-        </div>
-        
-        <a href="dashboard.php" class="active">
-            <i class="bi bi-speedometer2"></i>
-            <span>Dashboard</span>
-        </a>
-        
-        <a href="book_management.php">
-            <i class="bi bi-journal-bookmark-fill"></i>
-            <span>Book Management</span>
-        </a>
-        
-        <a href="borrow_management.php">
-            <i class="bi bi-layers"></i>
-            <span>Borrow Management</span>
-        </a>
-        
-        <a href="user_management.php">
-            <i class="bi bi-people"></i>
-            <span>User Management</span>
-        </a>
-        
-        <a href="logout.php">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
-        </a>
-    </div>
+    <?php include '../includes/admin/sidebar.php'; ?>
 
-    <!-- Top Header -->
-    <div class="top-header">
-        <span>
-            <i class="bi bi-bar-chart-line-fill"></i> 
-            Admin Dashboard
-        </span>
-        
-        <div class="admin-info">
-            <i class="bi bi-person-circle"></i>
-            <span>Welcome, Thakshila</span>
-        </div>
-    </div>
+    <!-- Header -->
+    <?php include '../includes/admin/header.php'; ?>
 
     <!-- Main Content -->
     <div class="main-content">
