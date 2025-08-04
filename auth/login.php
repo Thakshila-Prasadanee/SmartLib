@@ -19,17 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
-    // Try to select with role column first
-    $stmt = $conn->prepare("SELECT user_id, name, email, password, profile_image, role FROM users WHERE email = ?");
-    
-    // If role column doesn't exist, fall back to basic query
-    if (!$stmt) {
-        $stmt = $conn->prepare("SELECT user_id, name, email, password, profile_image FROM users WHERE email = ?");
-        $hasRoleColumn = false;
-    } else {
-        $hasRoleColumn = true;
-    }
-    
+    $stmt = $conn->prepare("SELECT user_id, name, email, password FROM users WHERE email = ?");
     if (!$stmt) {
         die("❌ Prepare failed: " . $conn->error);
     }
@@ -42,35 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password'])) {
-            // Set common session variables
             $_SESSION['user'] = $user['email'];
             $_SESSION['name'] = $user['name'];
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['profile_image'] = $user['profile_image'];
-            
-            // Check user role and set appropriate session variables
-            if ($hasRoleColumn && isset($user['role'])) {
-                $userRole = $user['role'];
-            } else {
-                // If no role column, default to 'user' (can be changed based on email patterns)
-                $userRole = 'user';
-                // Optional: Check if email contains 'admin' to determine admin role
-                if (strpos(strtolower($user['email']), 'admin') !== false) {
-                    $userRole = 'admin';
-                }
-            }
-            
-            $_SESSION['role'] = $userRole;
-            
-            if ($userRole === 'admin') {
-                // Admin login - set admin session variables and redirect to admin dashboard
-                $_SESSION['admin_name'] = $user['name'];
-                $_SESSION['admin_id'] = $user['user_id'];
-                header("Location: ../admin/dashboard.php");
-            } else {
-                // Regular user login - redirect to homepage
-                header("Location: ../index.php");
-            }
+            header("Location: /LibProj/SmartLib");
             exit();
         } else {
             $loginError = "❌ Incorrect password.";
