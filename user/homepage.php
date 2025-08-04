@@ -191,8 +191,9 @@ if (session_status() === PHP_SESSION_NONE) {
         <!-- Buttons -->
         <div class="d-flex justify-content-center gap-3">
             <?php if (!isset($_SESSION['user'])): ?>
-                <!-- Before Login - Only Login Button -->
+                <!-- Before Login - Both Login and Explore Buttons -->
                 <a href="auth/login.php" class="btn btn-dark btn-outline-light px-4 py-2">Login</a>
+                <a href="book/books_page.php" class="btn btn-outline-light px-4 py-2">Explore</a>
             <?php else: ?>
                 <!-- After Login - Only Explore Button -->
                 <a href="book/books_page.php" class="btn btn-outline-light px-4 py-2">Explore</a>
