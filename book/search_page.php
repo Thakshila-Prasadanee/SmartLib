@@ -61,7 +61,11 @@
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
-                  <input class="btn btn-secondary" style="background-color: #8F8484; color: white; border:2px solid white;" type="button" value="Generate history pdf">
+                  <input class="btn btn-secondary" 
+                    style="background-color: #8F8484; color: white; border:2px solid white;" 
+                    type="button" 
+                    value="Generate history pdf" 
+                    onclick="window.open('generate_history_pdf.php', '_blank')">
                   <input class="btn btn-secondary " style="background-color: #FF000D; color: white; border:2px solid white;" type="button" value="LogOut">
                 </li>
               </ul>
