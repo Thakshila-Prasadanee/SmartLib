@@ -166,6 +166,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <?php include 'includes/navbar.php'; ?>
 
+<!-- Logout Success Message -->
+<?php if (isset($show_logout_message) && $show_logout_message): ?>
+<div class="alert alert-success alert-dismissible fade show mx-3 mt-3" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <strong>Logout Successful!</strong> You have been successfully logged out of your account.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php endif; ?>
+
 <!-- Hero Section -->
 <section class="hero-section d-flex align-items-center text-white">
     <div class="container text-center">
@@ -181,13 +190,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- Buttons -->
         <div class="d-flex justify-content-center gap-3">
-            <?php if (!isset($_SESSION['user_id'])): ?>
-                <!-- Before Login -->
+            <?php if (!isset($_SESSION['user'])): ?>
+                <!-- Before Login - Only Login Button -->
                 <a href="auth/login.php" class="btn btn-dark btn-outline-light px-4 py-2">Login</a>
+            <?php else: ?>
+                <!-- After Login - Only Explore Button -->
+                <a href="book/books_page.php" class="btn btn-outline-light px-4 py-2">Explore</a>
             <?php endif; ?>
-
-            <!-- Explore -->
-            <a href="books.php" class="btn btn-outline-light px-4 py-2">Explore</a>
         </div>
     </div>
 </section>
