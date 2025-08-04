@@ -32,8 +32,17 @@
     // Start session
     session_start();
 
+    // Handle logout message display
+    $show_logout_message = false;
+    if (isset($_SESSION['user_logged_out']) && $_SESSION['user_logged_out'] === true) {
+        $show_logout_message = true;
+        // Clear the logout flag after capturing it
+        unset($_SESSION['user_logged_out']);
+        unset($_SESSION['show_logout_message']);
+    }
+
     // Check login and redirect based on role
-    if (isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['user']) || isset($_SESSION['admin_name'])) {
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             // Admin Dashboard
             include 'admin/dashboard.php';

@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     $host = 'localhost';
     $username = 'root';
     $password= '';
@@ -17,8 +18,7 @@
   <title>Books Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="media.css">
+  
 </head>
 <body>
   <!-- navbar -->
@@ -27,24 +27,39 @@
       <div class="row  m-0 mb-2 p-0">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg" data-bs-theme="dark" >
-            <a class="navbar-brand" href="#"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
+            <a class="navbar-brand" href="../"><img style="height: 90px; margin-top: -20px;" src="../images/logo.svg" alt="SmartLib Logo"></a>
             <button style="margin-top: -20px;" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenue">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end mx-4" >
               <ul class="navbar-nav" style="margin-top: -20px;">
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">Home</span></a>
+                  <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#"><span style="color: white;">History</span></a>
+                  <?php 
+                    if(isset($_SESSION['name'])){
+                        echo '<a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>';
+                    }else{
+                        echo '<a class="nav-link" href="#" onclick="alert(\'Please Log in First\'); return false;"><span style="color: white;">History</span></a>';
+                    }
+                    ?>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
-                <div class="d-flex mb-1"   role="search">
-                  <input class="form-control me-2" type="search" style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white;" placeholder="Search ..." aria-label="Search"/>
-                  <i class="fa-solid fa-magnifying-glass " style="margin-top:10px; width:50px;color:#ffffff;  position: absolute; "></i>
-                </div>
+                <form action="search_page.php" method="GET" class="d-flex mb-1" role="search" style="position: relative;">
+                    <input 
+                      class="form-control me-2" 
+                      type="search" 
+                      name="query"
+                      style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white; color: white;" 
+                      placeholder="Search ..." 
+                      aria-label="Search"
+                    />
+                    <button type="submit" style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                      <i class="fa-solid fa-magnifying-glass" style="color:#ffffff;"></i>
+                    </button>
+                  </form>
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
@@ -72,10 +87,19 @@
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
-                <div class="d-flex mb-1"   role="search">
-                  <input class="form-control me-2" type="search" style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white;" placeholder="Search ..." aria-label="Search"/>
-                  <i class="fa-solid fa-magnifying-glass " style="margin-top:10px; width:50px;color:#ffffff;  position: absolute; "></i>
-                </div>
+                <form action="search_page.php" method="GET" class="d-flex mb-1" role="search" style="position: relative;">
+                    <input 
+                      class="form-control me-2" 
+                      type="search" 
+                      name="query"
+                      style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white; color: white;" 
+                      placeholder="Search ..." 
+                      aria-label="Search"
+                    />
+                    <button type="submit" style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                      <i class="fa-solid fa-magnifying-glass" style="color:#ffffff;"></i>
+                    </button>
+                  </form>
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
@@ -125,13 +149,23 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                                <a href='book_details_page.php?book_id=".$x['book_id']."&category=Fairy Tales'>
-                                  <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                                </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                     <a href='book_details_page.php?book_id=".$x['book_id']."&category=Fairy Tales'>
+                                       <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                     </a>
+                                 </div>
+                               </div>";
+                     } else {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                     <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                       <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                     </a>
+                                 </div>
+                               </div>";
+                     }
                   }
                 } else {
                   // Show 404 image if no results
@@ -157,13 +191,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                   <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
+                                     <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                   </a>
+                                 </div>
+                               </div>";
+                     } else {
+                         echo "<div class='col-md-3 mb-4'>
+                                 <div class='card h-100'>
+                                   <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                     <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                   </a>
+                                 </div>
+                               </div>";
+                     }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -189,13 +234,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=A Pet's Tale'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=A Pet&#39;s Tale'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -221,13 +277,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                              <a href='book_details_page.php?book_id=".$x['book_id']."&category=Adventure'>
-                               <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                              </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=Adventure'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results
@@ -253,13 +320,24 @@
 
                 if ($result && mysqli_num_rows($result) > 0) {
                   while ($x = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-3 mb-4'>
-                            <div class='card h-100'>
-                               <a href='book_details_page.php?book_id=".$x['book_id']."&category=Mystery'>
-                                 <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
-                               </a>
-                            </div>
-                          </div>";
+                    if (isset($_SESSION['name'])) {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='book_details_page.php?book_id=".$x['book_id']."&category=Mystery'>
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      } else {
+                          echo "<div class='col-md-3 mb-4'>
+                                  <div class='card h-100'>
+                                    <a href='#' onclick=\"alert('Please Log in First'); return false;\">
+                                      <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                                    </a>
+                                  </div>
+                                </div>";
+                      }
+
                   }
                 } else {
                   // Show 404 image if no results
