@@ -41,7 +41,13 @@
                   <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>
+                  <?php 
+                    if(isset($_SESSION['name'])){
+                        echo '<a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>';
+                    }else{
+                        echo '<a class="nav-link" href="#" onclick="alert(\'Please Log in First\'); return false;"><span style="color: white;">History</span></a>';
+                    }
+                    ?>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
