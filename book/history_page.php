@@ -131,7 +131,7 @@
                     echo "<div class='d-flex flex-column flex-md-row border g-3 mb-3 p-3'  >";
                         // Left side: image
                         echo "<div class='col-md-3 col-12'>";
-                        echo "<img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='img-fluid rounded'  />";
+                        echo "<img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='img-fluid ms-5 rounded' style='height:300px;'  />";
                         echo "</div>";
                         // Right side: details
                         echo "<div class='col-md-9 col-12 mt-3 mt-md-0 ms-md-4' style='align-self: center;'>";
