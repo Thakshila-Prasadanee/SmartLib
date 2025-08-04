@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user['email'];
             $_SESSION['name'] = $user['name'];
-            header("Location: /LibProj/SmartLib/");
+            header("Location: /LibProj/SmartLib");
             exit();
         } else {
             $loginError = "❌ Incorrect password.";

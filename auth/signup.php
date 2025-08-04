@@ -181,7 +181,10 @@ a:hover {
         <input type="password" id="password" name="password" required>
         <?php if ($passwordErr): ?><div class="error"><?php echo $passwordErr; ?></div><?php endif; ?>
 
+         
+
         <button type="submit">Sign Up</button>
+
     </form>
     <a href="/LibProj/SmartLib/auth/login.php">Already have an account? Log In</a>
 </div>
