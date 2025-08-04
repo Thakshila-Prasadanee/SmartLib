@@ -225,28 +225,190 @@
 
         .table-card {
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
 
         .table-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 12px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
 
-        thead { 
-            background: #009688; 
-            color: #fff; 
+        .table-card h5 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .table-card h5 i {
+            color: #e74c3c;
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        /* Enhanced Table Styling */
+        .trending-table {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin: 0;
+        }
+
+        .trending-table thead { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .trending-table th {
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 15px 12px;
+            border: none;
+            text-align: center;
+        }
+
+        .trending-table td {
+            padding: 12px;
+            vertical-align: middle;
+            text-align: center;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .trending-table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .trending-table tbody tr:nth-child(even) {
+            background-color: #fbfbfb;
+        }
+
+        .trending-table tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        /* Serial Number Styling */
+        .serial-number {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: #2d3436;
+        }
+
+        /* Book Title Styling */
+        .book-title {
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: left;
+        }
+
+        /* Author Styling */
+        .book-author {
+            color: #636e72;
+            font-style: italic;
+            text-align: left;
+        }
+
+        /* Count Badge Styling */
+        .borrow-count {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            display: inline-block;
+            min-width: 35px;
+        }
+
+        /* Category Pills */
+        .category-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         table td, table th { 
             vertical-align: middle; 
             text-align: center; 
             padding: 8px; 
+        }
+
+        /* Chart title icons bold styling */
+        .chart-card h5 i, .pie-card h5 i {
+            font-weight: 900 !important;
+            font-size: 1.2em;
+        }
+
+        .chart-title-icon {
+            font-weight: 900 !important;
+            font-size: 1.2em;
+            text-shadow: 0.5px 0.5px 0px currentColor, -0.5px -0.5px 0px currentColor !important;
+            /* Alternative: use transform to make icons appear bolder */
+            transform: scaleX(1.1);
+        }
+
+        /* Responsive Table Design */
+        @media (max-width: 768px) {
+            .trending-table {
+                font-size: 0.8rem;
+            }
+            
+            .trending-table th,
+            .trending-table td {
+                padding: 8px 4px;
+            }
+            
+            .book-title,
+            .book-author {
+                text-align: center;
+            }
+            
+            .serial-number {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+            }
+            
+            .category-pill {
+                padding: 2px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .borrow-count {
+                padding: 2px 6px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Smooth animations for better UX */
+        .trending-table tbody tr {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .trending-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -298,7 +460,7 @@
         <div class="charts-row">
             <div class="chart-card card-shadow">
                 <h5 class="fw-bold mb-2 text-center">
-                    <i class="bi bi-graph-up"></i> 
+                    <i class="bi bi-graph-up fw-bold chart-title-icon"></i> 
                     Borrowing Trends
                 </h5>
                 <canvas id="borrowChart"></canvas>
@@ -306,25 +468,27 @@
             
             <div class="pie-card card-shadow">
                 <h5 class="fw-bold mb-2 text-center">
-                    <i class="bi bi-pie-chart"></i> 
+                    <i class="bi bi-pie-chart fw-bold chart-title-icon"></i> 
                     Books by Categories
                 </h5>
                 <canvas id="categoryChart"></canvas>
             </div>
         </div>
 
-        <!-- Trending Stock -->
+        <!-- Trending Books -->
         <div class="table-card card-shadow">
-            <h6 class="fw-bold mb-2">🔥 Trending Stock</h6>
+            <h5 class="fw-bold mb-3">
+                <i class="bi bi-fire"></i>Trending Books
+            </h5>
             
-            <table class="table table-sm table-striped">
+            <table class="table trending-table table-hover">
                 <thead>
                     <tr>
-                        <th>SL No</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Category</th>
-                        <th>Count</th>
+                        <th width="10%">Rank</th>
+                        <th width="35%">Book Name</th>
+                        <th width="25%">Author</th>
+                        <th width="20%">Category</th>
+                        <th width="10%">Borrows</th>
                     </tr>
                 </thead>
                 
@@ -332,28 +496,35 @@
                     <?php 
                     $sl_no = 1;
                     while ($row = mysqli_fetch_assoc($trending_result)) {
-                        // Assign Bootstrap text colors based on category
+                        // Assign Bootstrap classes and custom pill colors based on category
                         $categoryClass = 'text-secondary';
+                        $pillStyle = 'background: linear-gradient(135deg, #74b9ff, #0984e3);';
+                        
                         if (strtolower($row['category']) === 'fantasy') {
                             $categoryClass = 'text-success';
+                            $pillStyle = 'background: linear-gradient(135deg, #00b894, #00a085);';
                         } elseif (strtolower($row['category']) === 'adventure') {
                             $categoryClass = 'text-primary';
+                            $pillStyle = 'background: linear-gradient(135deg, #74b9ff, #0984e3);';
                         } elseif (strtolower($row['category']) === 'thriller') {
                             $categoryClass = 'text-warning';
+                            $pillStyle = 'background: linear-gradient(135deg, #fdcb6e, #e17055);';
                         } elseif (strtolower($row['category']) === 'horror') {
                             $categoryClass = 'text-danger';
+                            $pillStyle = 'background: linear-gradient(135deg, #fd79a8, #e84393);';
                         }
                         
                         echo "<tr>
-                                <td>" . str_pad($sl_no, 2, '0', STR_PAD_LEFT) . ".</td>
-                                <td>" . htmlspecialchars($row['title']) . "</td>
-                                <td>" . htmlspecialchars($row['author']) . "</td>
-                                <td class='{$categoryClass}'>" . htmlspecialchars($row['category']) . "</td>
-                                <td>" . $row['borrow_count'] . "</td>
+                                <td><span class='serial-number'>" . $sl_no . "</span></td>
+                                <td class='book-title'>" . htmlspecialchars($row['title']) . "</td>
+                                <td class='book-author'>" . htmlspecialchars($row['author']) . "</td>
+                                <td><span class='category-pill' style='{$pillStyle} color: white;'>" . htmlspecialchars($row['category']) . "</span></td>
+                                <td><span class='borrow-count'>" . $row['borrow_count'] . "</span></td>
                               </tr>";
                         $sl_no++;
                     }
                     ?>
+                    
                 </tbody>
             </table>
         </div>
