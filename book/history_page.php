@@ -29,10 +29,19 @@
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
-                <div class="d-flex mb-1"   role="search">
-                  <input class="form-control me-2" type="search" style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white;" placeholder="Search ..." aria-label="Search"/>
-                  <i class="fa-solid fa-magnifying-glass " style="margin-top:10px; width:50px;color:#ffffff;  position: absolute; "></i>
-                </div>
+                <form action="search_page.php" method="GET" class="d-flex mb-1" role="search" style="position: relative;">
+                    <input 
+                      class="form-control me-2" 
+                      type="search" 
+                      name="query"
+                      style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white; color: white;" 
+                      placeholder="Search ..." 
+                      aria-label="Search"
+                    />
+                    <button type="submit" style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                      <i class="fa-solid fa-magnifying-glass" style="color:#ffffff;"></i>
+                    </button>
+                  </form>
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
@@ -60,10 +69,19 @@
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
-                <div class="d-flex mb-1"   role="search">
-                  <input class="form-control me-2" type="search" style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white;" placeholder="Search ..." aria-label="Search"/>
-                  <i class="fa-solid fa-magnifying-glass " style="margin-top:10px; width:50px;color:#ffffff;  position: absolute; "></i>
-                </div>
+                <form action="search_page.php" method="GET" class="d-flex mb-1" role="search" style="position: relative;">
+                    <input 
+                      class="form-control me-2" 
+                      type="search" 
+                      name="query"
+                      style="padding-left:50px; border-radius: 50px; width: 400px; background-color:#524E4E; border:2px solid white; color: white;" 
+                      placeholder="Search ..." 
+                      aria-label="Search"
+                    />
+                    <button type="submit" style="position: absolute; top: 50%; left: 15px; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                      <i class="fa-solid fa-magnifying-glass" style="color:#ffffff;"></i>
+                    </button>
+                  </form>
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
