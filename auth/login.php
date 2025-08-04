@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
-    $stmt = $conn->prepare("SELECT user_id, name, email, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT user_id, name, email, password, role FROM users WHERE email = ?");
     if (!$stmt) {
         die("❌ Prepare failed: " . $conn->error);
     }
@@ -34,7 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user['email'];
             $_SESSION['name'] = $user['name'];
-            header("Location: /LibProj/SmartLib");
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+            
+            // Role-based redirection
+            if ($user['role'] === 'admin') {
+                header("Location: ../admin/dashboard.php");
+            } else {
+                header("Location: ../index.php");
+            }
             exit();
         } else {
             $loginError = "❌ Incorrect password.";

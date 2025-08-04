@@ -1,7 +1,7 @@
 <?php
 // Initialize variables
-$name = $email = $password = "";
-$nameErr = $emailErr = $passwordErr = "";
+$name = $email = $password = $role = "";
+$nameErr = $emailErr = $passwordErr = $roleErr = "";
 $successMsg = "";
 
 // Database connection settings
@@ -45,14 +45,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     }
 
+    // Validate Role
+    if (empty(trim($_POST["role"]))) {
+        $roleErr = "Role is required.";
+    } else {
+        $role = trim($_POST["role"]);
+        if (!in_array($role, ['admin', 'user'])) {
+            $roleErr = "Invalid role selected.";
+        }
+    }
+
     // If no errors, insert into database
-    if (empty($nameErr) && empty($emailErr) && empty($passwordErr)) {
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $email, $hashedPassword);
+    if (empty($nameErr) && empty($emailErr) && empty($passwordErr) && empty($roleErr)) {
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $email, $hashedPassword, $role);
 
         if ($stmt->execute()) {
             $successMsg = "✅ Registration successful!";
-            $name = $email = $password = "";
+            $name = $email = $password = $role = "";
         } else {
             $emailErr = "❌ Email already exists or error occurred.";
         }
@@ -121,7 +131,8 @@ label {
 }
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+select {
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 20px;
@@ -129,10 +140,12 @@ input[type="password"] {
   border-radius: 8px;
   font-size: 14px;
   transition: border-color 0.2s;
+  background-color: #fff;
 }
 input[type="text"]:focus,
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+select:focus {
   border-color: #007bff;
   outline: none;
 }
@@ -180,6 +193,14 @@ a:hover {
         <label for="password">Password*</label>
         <input type="password" id="password" name="password" required>
         <?php if ($passwordErr): ?><div class="error"><?php echo $passwordErr; ?></div><?php endif; ?>
+
+        <label for="role">Role*</label>
+        <select id="role" name="role" required>
+            <option value="">Select Role</option>
+            <option value="user" <?php echo ($role == 'user') ? 'selected' : ''; ?>>User</option>
+            <option value="admin" <?php echo ($role == 'admin') ? 'selected' : ''; ?>>Admin</option>
+        </select>
+        <?php if ($roleErr): ?><div class="error"><?php echo $roleErr; ?></div><?php endif; ?>
 
          
 
