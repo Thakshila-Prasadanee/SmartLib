@@ -139,7 +139,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <!-- Right Side (Auth Button / Profile) -->
             <div class="d-flex align-items-center">
-                <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (isset($_SESSION['user'])): ?>
                     <!-- After Login -->
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
@@ -149,20 +149,20 @@ if (session_status() === PHP_SESSION_NONE) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="profile.php">
+                                <a class="dropdown-item d-flex align-items-center" href="user/userprofile.php">
                                     <i class="bi bi-person me-2"></i> Profile
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.php">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Sign Out
+                                <a class="dropdown-item d-flex align-items-center text-danger" href="admin/logout.php">
+                                    <i class="bi bi-box-arrow-right me-2"></i> LogOut
                                 </a>
                             </li>
                         </ul>
                     </div>
                 <?php else: ?>
                     <!-- Before Login -->
-                    <a href="signup.php" class="btn btn-signup">Sign Up</a>
+                    <a href="auth/signup.php" class="btn btn-signup">Sign Up</a>
                 <?php endif; ?>
             </div>
         </div>
