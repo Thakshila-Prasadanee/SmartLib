@@ -1,3 +1,14 @@
+<?php 
+    $host = 'localhost';
+    $username = 'root';
+    $password= '';
+    $db_name = 'smartlib';
+    $conn = mysqli_connect($host, $username, $password, $db_name);
+    if(!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+?>
+
 <?php
   $searchQuery = isset($_GET['query']) ? htmlspecialchars($_GET['query']) : 'No search input';
 ?>
@@ -102,9 +113,33 @@
   </header>
 <!-- navbar -->
 
-   <div class="container mt-5">
-    <h1 class="text-center">Search Results for: <span class="text-primary"><?php echo $searchQuery; ?></span></h1>
-    <!-- You can add result display logic here -->
+   <div class="container mt-4">
+    <div class="row">
+      <?php
+      $query = "SELECT * FROM `books` WHERE title LIKE '%".$_GET['query']."%';";
+      $result = mysqli_query($conn, $query);
+
+      if ($result && mysqli_num_rows($result) > 0) {
+        while ($x = mysqli_fetch_assoc($result)) {
+          echo "<div class='col-md-3 mb-4'>
+                  <div class='card h-100'>
+                      <a href='book_details_page.php?book_id=".$x['book_id']."&category=Little Life Stories'>
+                        <img src='".$x['image_url']."' class='card-img-top' alt='Book Cover'>
+                      </a>
+                  </div>
+                </div>";
+        }
+      } else {
+        // Show 404 image if no results
+        echo "<div class='col-md-12'>
+                <div class='card h-100'>
+                  <img src='https://ik.imagekit.io/nimantha/Smartlib/404%20image.jpg?updatedAt=1754041781388' 
+                        class='card-img-top' alt='No Books Found'>
+                </div>
+              </div>";
+      }
+      ?>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
