@@ -119,78 +119,423 @@ $profile_image_path = !empty($user['profile_image']) ? $user['profile_image'] : 
    <meta name="viewport" content="width=device-width, initial-scale=1" />
    <title>User Profile</title>
    <style>
-      body {
-         font-family: Arial, sans-serif;
-         background-color: #f0f2f5;
-         margin: 0;
-         padding: 20px;
-      }
+      /* Global styles */
+body {
+   font-family: 'Inter', sans-serif;
+   background: linear-gradient(135deg, #f3f7fc, #eef1f6);
+   margin: 0;
+   padding: 20px;
+   color: #2f3542;
+}
 
-      .profile-container {
-         max-width: 900px;
-         margin: 0 auto;
-         background: #fff;
-         padding: 25px;
-         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
+/* Main container */
+.profile-container {
+   max-width: 900px;
+   margin: auto;
+   background: #ffffff;
+   padding: 35px;
+   border-radius: 18px;
+   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+   border: 1px solid #e4e9f0;
+   transition: transform 0.3s ease;
+}
 
-      .header {
-         display: flex;
-         align-items: center;
-         justify-content: space-between;
-      }
+.profile-container:hover {
+   transform: scale(1.01);
+}
 
-      .header h2 {
-         margin: 0;
-      }
+/* Header */
+.header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-wrap: wrap;
+   margin-bottom: 30px;
+}
 
-      .profile-img {
-         width: 80px;
-         height: 80px;
-         border-radius: 50%;
-         object-fit: cover;
-         border: 2px solid #ddd;
-         cursor: pointer;
-      }
+.header h2 {
+   font-size: 28px;
+   font-weight: 700;
+   color: #34495e;
+   margin: 0;
+}
 
-      .edit-button {
-         background-color: #007bff;
-         border: none;
-         padding: 8px 16px;
-         border-radius: 4px;
-         color: #fff;
-         cursor: pointer;
-      }
+/* Profile image */
+.profile-img {
+   width: 110px;
+   height: 110px;
+   border-radius: 50%;
+   object-fit: cover;
+   border: 3px solid #6c63ff;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
 
-      .edit-button:hover {
-         background-color: #0056b3;
-      }
+.profile-img:hover {
+   transform: scale(1.05);
+   border-color: #4e4eff;
+}
 
-      .info-grid {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         gap: 20px;
-         margin-top: 20px;
-      }
+/* Button styles */
+.edit-button {
+   background: linear-gradient(135deg, #6c63ff, #4e4eff);
+   color: #fff;
+   border: none;
+   padding: 12px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: background 0.3s ease, transform 0.2s;
+   box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+}
 
-      .form-group {
-         display: flex;
-         flex-direction: column;
-      }
+.edit-button:hover {
+   background: linear-gradient(135deg, #5a54e3, #3d3dd9);
+   transform: translateY(-2px);
+}
 
-      label {
-         margin-bottom: 5px;
-         font-weight: bold;
-      }
+/* Grid layout */
+.info-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 25px;
+   margin-top: 30px;
+}
 
-      input,
-      select {
-         padding: 8px;
-         border: 1px solid #ccc;
-         border-radius: 4px;
-      }
+.form-group {
+   display: flex;
+   flex-direction: column;
+}
+
+/* Labels and inputs */
+label {
+   font-weight: 600;
+   margin-bottom: 8px;
+   font-size: 15px;
+   color: #444;
+}
+
+input,
+select {
+   padding: 12px 16px;
+   border: 1px solid #d5dbe0;
+   border-radius: 12px;
+   font-size: 14px;
+   background-color: #f8fafc;
+   transition: all 0.3s ease;
+   color: #333;
+}
+
+input:focus,
+select:focus {
+   border-color: #6c63ff;
+   background-color: #fff;
+   box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+   outline: none;
+}
+
+/* Save & Cancel button tweaks */
+button[type="submit"] {
+   background-color: #2ecc71;
+   font-weight: 600;
+   transition: all 0.3s;
+}
+
+button[type="submit"]:hover {
+   background-color: #27ae60;
+   transform: translateY(-1px);
+}
+
+button[type="button"] {
+   background-color: #b0bec5;
+   font-weight: 600;
+}
+
+button[type="button"]:hover {
+   background-color: #90a4ae;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+   .info-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .profile-img {
+      width: 90px;
+      height: 90px;
+   }
+
+   .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+   }
+}
+
+/* Global styles */
+body {
+   font-family: 'Inter', sans-serif;
+   background: linear-gradient(135deg, #f3f7fc, #eef1f6);
+   margin: 0;
+   padding: 20px;
+   color: #2f3542;
+}
+
+/* Main container */
+.profile-container {
+   max-width: 900px;
+   margin: auto;
+   background: #ffffff;
+   padding: 35px;
+   border-radius: 18px;
+   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+   border: 1px solid #e4e9f0;
+   transition: transform 0.3s ease;
+}
+
+.profile-container:hover {
+   transform: scale(1.01);
+}
+
+/* Header */
+.header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-wrap: wrap;
+   margin-bottom: 30px;
+}
+
+.header h2 {
+   font-size: 28px;
+   font-weight: 700;
+   color: #34495e;
+   margin: 0;
+}
+
+/* Profile image */
+.profile-img {
+   width: 110px;
+   height: 110px;
+   border-radius: 50%;
+   object-fit: cover;
+   border: 3px solid #6c63ff;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.profile-img:hover {
+   transform: scale(1.05);
+   border-color: #4e4eff;
+}
+
+/* Button styles */
+.edit-button {
+   background: linear-gradient(135deg, #6c63ff, #4e4eff);
+   color: #fff;
+   border: none;
+   padding: 12px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: background 0.3s ease, transform 0.2s;
+   box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+}
+
+.edit-button:hover {
+   background: linear-gradient(135deg, #5a54e3, #3d3dd9);
+   transform: translateY(-2px);
+}
+
+/* Grid layout */
+.info-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 25px;
+   margin-top: 30px;
+}
+
+.form-group {
+   display: flex;
+   flex-direction: column;
+}
+
+/* Labels and inputs */
+label {
+   font-weight: 600;
+   margin-bottom: 8px;
+   font-size: 15px;
+   color: #444;
+}
+
+input,
+select {
+   padding: 12px 16px;
+   border: 1px solid #d5dbe0;
+   border-radius: 12px;
+   font-size: 14px;
+   background-color: #f8fafc;
+   transition: all 0.3s ease;
+   color: #333;
+}
+
+input:focus,
+select:focus {
+   border-color: #6c63ff;
+   background-color: #fff;
+   box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+   outline: none;
+}
+
+/* Save & Cancel button tweaks */
+button[type="submit"] {
+   background-color: #2ecc71;
+   font-weight: 600;
+   transition: all 0.3s;
+}
+
+button[type="submit"]:hover {
+   background-color: #27ae60;
+   transform: translateY(-1px);
+}
+
+button[type="button"] {
+   background-color: #b0bec5;
+   font-weight: 600;
+}
+
+button[type="button"]:hover {
+   background-color: #90a4ae;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+   .info-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .profile-img {
+      width: 90px;
+      height: 90px;
+   }
+
+   .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+   }
+}
+/* Light gray background for the container */
+.profile-container {
+  background: #f0f0f0; /* light gray */
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 700px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover shadow effect */
+.profile-container:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Header with a different but simple color */
+.header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #444; /* dark gray instead of black */
+  margin: 0;
+}
+
+.header h2::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0;
+  background-color: #444; /* matching underline */
+  margin-top: 8px;
+  transition: width 0.3s ease;
+}
+
+.header h2:hover::after {
+  width: 100%;
+}
+
+/* Button with a softer color */
+.edit-button {
+  padding: 10px 20px;
+  background-color: #007BFF; /* blue */
+  color: #fff; /* white text */
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #0056b3; /* darker blue */
+}
+
+/* Profile image border color changed to a softer tone */
+.profile-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ddd; /* light gray border */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-color: #ccc; /* gray border on hover */
+}
+
+/* Info grid with light text and slightly darker labels */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.form-group {
+  background-color: #fff; /* white background */
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(147, 130, 186, 0.05);
+}
+
+.form-group label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333s; /* medium gray for labels */
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group div {
+  font-size: 14px;
+  color: #2f3542; /* darker gray for text */
+}
+
+
+
+
+
    </style>
-</head>
+   </head>
 
 <body>
 
@@ -369,3 +714,7 @@ $profile_image_path = !empty($user['profile_image']) ? $user['profile_image'] : 
 </body>
 
 </html>
+
+
+
+
