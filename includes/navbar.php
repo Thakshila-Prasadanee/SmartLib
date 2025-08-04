@@ -3,6 +3,27 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Function to generate random color based on user name
+function generateProfileColor($name) {
+    $colors = [
+        '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+        '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+        '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#F4D03F'
+    ];
+    $index = ord($name[0]) % count($colors);
+    return $colors[$index];
+}
+
+// Function to get user initials
+function getUserInitials($name) {
+    $words = explode(' ', trim($name));
+    if (count($words) >= 2) {
+        return strtoupper($words[0][0] . $words[1][0]);
+    } else {
+        return strtoupper(substr($name, 0, 2));
+    }
+}
 ?>
 
 <style>
@@ -59,6 +80,39 @@ if (session_status() === PHP_SESSION_NONE) {
         background-color: #245f5b;
         border: 2px solid #000000;
         color: #000000;
+    }
+
+    /* Profile Circle Styles */
+    .profile-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        border: 2px solid #ffffff;
+        transition: transform 0.2s ease;
+    }
+    
+    .profile-circle:hover {
+        transform: scale(1.05);
+    }
+    
+    .profile-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        object-fit: cover;
+        transition: transform 0.2s ease;
+    }
+    
+    .profile-img:hover {
+        transform: scale(1.05);
     }
 
     /* Mobile specific styles */
@@ -144,8 +198,21 @@ if (session_status() === PHP_SESSION_NONE) {
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?= $_SESSION['profile_img'] ?? 'assets/profile.jpg'; ?>" 
-                                 alt="Profile" width="50" height="50" class="rounded-circle border border-2 border-white">
+                            <?php
+                            // Check if user has profile image
+                            if (!empty($_SESSION['profile_image']) && file_exists($_SESSION['profile_image'])) {
+                                // Display actual profile image
+                                echo '<img src="' . htmlspecialchars($_SESSION['profile_image']) . '" 
+                                         alt="Profile" class="profile-img">';
+                            } else {
+                                // Display random colored circle with initials
+                                $userName = $_SESSION['name'] ?? 'User';
+                                $userColor = generateProfileColor($userName);
+                                $userInitials = getUserInitials($userName);
+                                echo '<div class="profile-circle" style="background-color: ' . $userColor . ';">' 
+                                     . $userInitials . '</div>';
+                            }
+                            ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>

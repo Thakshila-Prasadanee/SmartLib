@@ -1,7 +1,7 @@
 <?php
 // Initialize variables
-$name = $email = $password = "";
-$nameErr = $emailErr = $passwordErr = "";
+$name = $email = $password = $role = "";
+$nameErr = $emailErr = $passwordErr = $roleErr = "";
 $successMsg = "";
 
 // Database connection settings
@@ -45,19 +45,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    // If no errors, insert into database
-    if (empty($nameErr) && empty($emailErr) && empty($passwordErr)) {
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $email, $hashedPassword);
+    // Validate Role
+    if (empty($_POST["role"])) {
+        $roleErr = "Role is required.";
+    } elseif (in_array($_POST["role"], ["admin", "user"])) {
+        $role = $_POST["role"];
+    } else {
+        $roleErr = "Please select a valid role.";
+    }
 
-        if ($stmt->execute()) {
-            $successMsg = "✅ Registration successful!";
-            $name = $email = $password = "";
+    // If no errors, insert into database
+    if (empty($nameErr) && empty($emailErr) && empty($passwordErr) && empty($roleErr)) {
+        // Check if the users table has a role column by attempting to insert with it first
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+        
+        if (!$stmt) {
+            // If role column doesn't exist, insert without it
+            $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+            if (!$stmt) {
+                $emailErr = "❌ Database error: " . $conn->error;
+            } else {
+                $stmt->bind_param("sss", $name, $email, $hashedPassword);
+            }
         } else {
-            $emailErr = "❌ Email already exists or error occurred.";
+            // Role column exists, include it in the insert
+            $stmt->bind_param("ssss", $name, $email, $hashedPassword, $role);
         }
 
-        $stmt->close();
+        if (isset($stmt) && $stmt && $stmt->execute()) {
+            $successMsg = "✅ Registration successful as " . ucfirst($role) . "!";
+            $name = $email = $password = $role = "";
+        } else {
+            if ($conn->errno == 1062) { // Duplicate entry error
+                $emailErr = "❌ Email already exists.";
+            } else {
+                $emailErr = "❌ Registration failed: " . $conn->error;
+            }
+        }
+
+        if (isset($stmt) && $stmt) {
+            $stmt->close();
+        }
     }
 }
 
@@ -121,7 +149,8 @@ label {
 }
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+select {
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 20px;
@@ -129,12 +158,20 @@ input[type="password"] {
   border-radius: 8px;
   font-size: 14px;
   transition: border-color 0.2s;
+  background-color: #fff;
 }
 input[type="text"]:focus,
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+select:focus {
   border-color: #007bff;
   outline: none;
+}
+select {
+  cursor: pointer;
+}
+select option {
+  padding: 10px;
 }
 button {
   width: 100%;
@@ -180,6 +217,14 @@ a:hover {
         <label for="password">Password*</label>
         <input type="password" id="password" name="password" required>
         <?php if ($passwordErr): ?><div class="error"><?php echo $passwordErr; ?></div><?php endif; ?>
+
+        <label for="role">Role*</label>
+        <select id="role" name="role" required>
+            <option value="">Select Role</option>
+            <option value="user" <?php echo ($role === 'user') ? 'selected' : ''; ?>>User</option>
+            <option value="admin" <?php echo ($role === 'admin') ? 'selected' : ''; ?>>Admin</option>
+        </select>
+        <?php if ($roleErr): ?><div class="error"><?php echo $roleErr; ?></div><?php endif; ?>
 
         <button type="submit">Sign Up</button>
     </form>
