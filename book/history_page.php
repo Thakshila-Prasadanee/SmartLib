@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     $host = 'localhost';
     $username = 'root';
     $password= '';
@@ -9,6 +10,16 @@
     }
 ?>
 
+<?php 
+  $query = "SELECT user_id FROM `users` WHERE name = '" . $_SESSION['name'] . "';";
+  $result = mysqli_query($conn, $query);
+  if ($result) {
+      $row = mysqli_fetch_assoc($result);
+      $user_id = $row['user_id'];
+  } else {
+      echo "Error: " . mysqli_error($conn);
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,6 +119,39 @@
     </div>
   </header>
 <!-- navbar -->
+
+    <div class="container-fluid">
+      <div class="row">
+
+          <?php 
+            $query = "SELECT b.image_url,b.title,c.name ,b.description, r.borrow_date,r.return_date ,r.status FROM books AS b JOIN borrow_records AS r ON b.book_id = r.book_id JOIN categories AS c ON c.category_id = b.category_id JOIN users AS u ON u.user_id = r.user_id WHERE u.user_id = '$user_id' ;";
+            $result = mysqli_query($conn, $query);
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='d-flex flex-column flex-md-row border g-3 mb-3 p-3'  >";
+                        // Left side: image
+                        echo "<div class='col-md-3 col-12'>";
+                        echo "<img src='" . $row['image_url'] . "' alt='" . $row['title'] . "' class='img-fluid rounded'  />";
+                        echo "</div>";
+                        // Right side: details
+                        echo "<div class='col-md-9 col-12 mt-3 mt-md-0 ms-md-4' style='align-self: center;'>";
+                        echo "<h2>" . $row['title'] . "</h2>";
+                        echo "<p>Category: " . $row['name'] . "</p>";
+                        echo "<p>Description: " . $row['description'] . "</p>";
+                        echo "<p>Borrowed on: " . $row['borrow_date'] . "</p>";
+                        echo "<p>Returned on: " . $row['return_date'] . "</p>";
+                        echo "<p>Status: " . $row['status'] . "</p>";
+                        echo "</div>";
+                    echo "</div>";
+
+                }
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+          ?>
+        
+      </div>
+    </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
