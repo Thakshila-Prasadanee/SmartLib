@@ -416,10 +416,10 @@
 
 <div class="dashboard-container">
     <!-- Sidebar -->
-    <?php include '../includes/admin/sidebar.php'; ?>
+    <?php include 'includes/admin/sidebar.php'; ?>
 
     <!-- Header -->
-    <?php include '../includes/admin/header.php'; ?>
+    <?php include 'includes/admin/header.php'; ?>
 
     <!-- Main Content -->
     <div class="main-content">
