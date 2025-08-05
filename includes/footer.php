@@ -314,7 +314,7 @@
                     <h5 class="footer-title">Quick Links</h5>
                     <ul class="footer-links">
                         <li><a href="#">Home</a></li>
-                        <li><a href="#">Our Books</a></li>
+                        <li><a href="book/books_page.php">Our Books</a></li>
                         <li><a href="#about-section">About Us</a></li>
                         <li><a href="#footer-section">Contact Us</a></li>
                     </ul>
