@@ -41,7 +41,13 @@
                   <a class="nav-link" href="books_page.php"><span style="color: white;">Home</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>
+                  <?php 
+                    if(isset($_SESSION['name'])){
+                        echo '<a class="nav-link" href="history_page.php"><span style="color: white;">History</span></a>';
+                    }else{
+                        echo '<a class="nav-link" href="#" onclick="alert(\'Please Log in First\'); return false;"><span style="color: white;">History</span></a>';
+                    }
+                    ?>
                 </li>
                 <li class="nav-item">
                 <!-- Search -->
@@ -61,8 +67,36 @@
                 <!-- Search -->
                 </li>
                 <li class="nav-item">
-                  <input class="btn btn-secondary" style="background-color: #8F8484; color: white; border:2px solid white;" type="button" value="Generate history pdf">
-                  <input class="btn btn-secondary " style="background-color: #FF000D; color: white; border:2px solid white;" type="button" value="LogOut">
+                  <?php
+                    if (isset($_SESSION['name'])) {
+                        echo "<input class='btn btn-secondary' 
+                                    style='background-color: #8F8484; color: white; border:2px solid white;' 
+                                    type='button' 
+                                    value='Generate history pdf' 
+                                    onclick=\"window.open('generate_history_pdf.php', '_blank')\">";
+                    } else {
+                        echo "<input class='btn btn-secondary' 
+                                    style='background-color: #8F8484; color: white; border:2px solid white;' 
+                                    type='button' 
+                                    value='Generate history pdf' 
+                                    onclick=\"alert('Please Log in First');\">";
+                    }
+                  ?>
+                  <?php
+                    if (isset($_SESSION['name'])) {
+                        echo "<input class='btn btn-secondary' 
+                                    style='background-color: #FF000D; color: white; border:2px solid white;' 
+                                    type='button' 
+                                    value='LogOut' 
+                                    onclick=\"window.location.href='logout.php'\">";
+                    } else {
+                        echo "<input class='btn btn-secondary' 
+                                    style='background-color: #FF000D; color: white; border:2px solid white;' 
+                                    type='button' 
+                                    value='LogOut' 
+                                    onclick=\"alert('You are not logged in');\">";
+                    }
+                  ?>
                 </li>
               </ul>
             </div>
