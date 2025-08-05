@@ -38,6 +38,13 @@ foreach ($columnsToAdd as $column => $type) {
    }
 }
 
+// Fetch current user info (needed for profile image deletion)
+$stmt = $conn->prepare("SELECT name, email, gender, nickname, contact, profile_image FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$current_user = $result->fetch_assoc();
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $full_name = $_POST['full_name'] ?? '';
@@ -48,29 +55,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    // Handle profile image upload if exists
    $profile_image = null;
-   if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-      $fileTmpPath = $_FILES['profile_image']['tmp_name'];
-      $fileName = basename($_FILES['profile_image']['name']);
-      $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+   $upload_status = "No file selected";
+   
+   if (isset($_FILES['profile_image'])) {
+      $upload_status = "File input detected";
+      
+      if ($_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+         $upload_status = "File upload OK";
+         $fileTmpPath = $_FILES['profile_image']['tmp_name'];
+         $fileName = basename($_FILES['profile_image']['name']);
+         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+         
+         $upload_status = "Processing file: $fileName (.$ext)";
 
-      $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
-      if (in_array($ext, $allowed_ext)) {
-         // Create uploads directory if not exist
-         $uploadDir = __DIR__ . '/uploads/';
-         if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
+         $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+         if (in_array($ext, $allowed_ext)) {
+            $upload_status = "File extension allowed";
+            
+            // Create uploads directory if not exist
+            $uploadDir = __DIR__ . '/uploads/';
+            if (!is_dir($uploadDir)) {
+               mkdir($uploadDir, 0755, true);
+               $upload_status = "Created upload directory";
+            } else {
+               $upload_status = "Upload directory exists";
+            }
+
+            // Generate unique file name
+            $newFileName = uniqid('profile_', true) . '.' . $ext;
+            $dest_path = $uploadDir . $newFileName;
+            
+            $upload_status = "Attempting to move file to: $dest_path";
+
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+               // Store the relative path from the user directory
+               $profile_image = 'uploads/' . $newFileName;
+               $upload_status = "SUCCESS: File uploaded as $profile_image";
+               
+               // Delete old profile image if it exists
+               if (!empty($current_user['profile_image']) && file_exists(__DIR__ . '/' . $current_user['profile_image'])) {
+                  unlink(__DIR__ . '/' . $current_user['profile_image']);
+                  $upload_status .= " | Old image deleted";
+               }
+            } else {
+               $upload_status = "FAILED: Could not move uploaded file";
+            }
+         } else {
+            $upload_status = "ERROR: File extension not allowed ($ext)";
          }
-
-         // Generate unique file name
-         $newFileName = uniqid('profile_', true) . '.' . $ext;
-         $dest_path = $uploadDir . $newFileName;
-
-         if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $profile_image = 'uploads/' . $newFileName;
-         }
+      } else {
+         $upload_status = "ERROR: Upload error code " . $_FILES['profile_image']['error'];
       }
    }
-
+   
+   // Store upload status for debugging
+   $_SESSION['upload_status'] = $upload_status;
+   
    // Update query
    if ($profile_image !== null) {
       $stmt = $conn->prepare("UPDATE users SET name=?, email=?, gender=?, contact=?, nickname=?, profile_image=? WHERE email=?");
@@ -83,10 +123,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    $stmt->execute();
 
-   // If email changed, update session user email
-   if ($email_input !== $email) {
-      $_SESSION['user'] = $email_input;
-      $email = $email_input;
+   // Check if update was successful
+   if ($stmt->affected_rows > 0) {
+      // If email changed, update session user email
+      if ($email_input !== $email) {
+         $_SESSION['user'] = $email_input;
+         $email = $email_input;
+      }
+      
+      // Set success message in session
+      $_SESSION['profile_update_success'] = true;
+      if ($profile_image !== null) {
+         $_SESSION['profile_image_updated'] = true;
+      }
    }
 
    // Redirect to avoid resubmission
@@ -106,8 +155,47 @@ if (!$user) {
    exit();
 }
 
-// Use default profile image if none set
-$profile_image_path = !empty($user['profile_image']) ? $user['profile_image'] : 'assets/profile.jpg';
+// Function to generate random color based on user name (same as navbar)
+function generateProfileColor($name) {
+    $colors = [
+        '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+        '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+        '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#F4D03F'
+    ];
+    $index = ord($name[0]) % count($colors);
+    return $colors[$index];
+}
+
+// Function to get user initials (same as navbar)
+function getUserInitials($name) {
+    $words = explode(' ', trim($name));
+    if (count($words) >= 2) {
+        return strtoupper($words[0][0] . $words[1][0]);
+    } else {
+        return strtoupper(substr($name, 0, 2));
+    }
+}
+
+// Simple and reliable profile image display logic
+$profile_image_path = null;
+$show_colored_circle = true; // Default to circle
+
+if (!empty($user['profile_image'])) {
+    // Try to find the image file
+    $imagePath = $user['profile_image']; // e.g., "uploads/profile_123.jpg"
+    $fullImagePath = __DIR__ . '/' . $imagePath; // Full server path
+    
+    if (file_exists($fullImagePath)) {
+        // File exists, show the real image
+        $profile_image_path = $imagePath . '?v=' . time(); // Cache busting with current time
+        $show_colored_circle = false;
+    }
+}
+
+// Generate circle data for fallback
+$userName = $user['name'] ?? 'User';
+$userColor = generateProfileColor($userName);
+$userInitials = getUserInitials($userName);
 
 ?>
 
@@ -532,7 +620,27 @@ button[type="button"]:hover {
 
 
 
+/* Profile circle for users without profile image */
+.profile-circle {
+   width: 110px;
+   height: 110px;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   font-weight: bold;
+   font-size: 32px;
+   margin: 0 auto;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   border: 3px solid #6c63ff;
+}
 
+.profile-circle:hover {
+   transform: scale(1.05);
+   border-color: #4e4eff;
+}
 
    </style>
    </head>
@@ -545,6 +653,37 @@ button[type="button"]:hover {
          <button class="edit-button" onclick="toggleEdit()">Edit</button>
       </div>
 
+      <?php if (isset($_SESSION['profile_update_success'])): ?>
+         <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 15px 0; text-align: center;">
+            ✅ Profile updated successfully!
+            <?php if (isset($_SESSION['profile_image_updated'])): ?>
+               Profile image has been updated.
+            <?php endif; ?>
+         </div>
+         <?php 
+            unset($_SESSION['profile_update_success']);
+            unset($_SESSION['profile_image_updated']);
+         ?>
+      <?php endif; ?>
+
+      <!-- Simple debug info -->
+      <div style="background-color: #e7f3ff; color: #0066cc; padding: 10px; border-radius: 5px; margin: 15px 0; font-size: 12px;">
+         <strong>Debug:</strong> 
+         Profile Image in DB: <?php echo !empty($user['profile_image']) ? htmlspecialchars($user['profile_image']) : 'None'; ?> | 
+         Showing: <?php echo $show_colored_circle ? 'Colored Circle' : 'Real Image'; ?>
+         <?php if (!$show_colored_circle): ?>
+            | Image Path: <?php echo htmlspecialchars($profile_image_path); ?>
+         <?php endif; ?>
+         <br><strong>PHP Upload Settings:</strong> 
+         Max Upload: <?php echo ini_get('upload_max_filesize'); ?> | 
+         Max Post: <?php echo ini_get('post_max_size'); ?> | 
+         File Uploads: <?php echo ini_get('file_uploads') ? 'Enabled' : 'Disabled'; ?>
+         <?php if (isset($_SESSION['upload_status'])): ?>
+            <br><strong>Upload Status:</strong> <?php echo htmlspecialchars($_SESSION['upload_status']); ?>
+            <?php unset($_SESSION['upload_status']); ?>
+         <?php endif; ?>
+      </div>
+
       <!-- <div style="text-align:center; margin-top:15px;">
          <img id="profileImg" src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Profile Image"
             class="profile-img" title="" />
@@ -552,11 +691,18 @@ button[type="button"]:hover {
       </div> -->
 
       <div style="text-align:center; margin-top:15px;">
-         <img id="profileImg" src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Profile Image"
-            class="profile-img" title="" onclick="triggerImageInput()" />
-
-         <input type="file" id="profileImageInput" name="profile_image" accept="image/*" style="display:none;"
-            form="profileForm">
+         <?php if (!$show_colored_circle && !empty($profile_image_path)): ?>
+            <!-- Display actual profile image -->
+            <img id="profileImg" src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Profile Image"
+               class="profile-img" title="Click to change profile image" onclick="triggerImageInput()" />
+         <?php else: ?>
+            <!-- Display colored circle with initials -->
+            <div id="profileImg" class="profile-circle" 
+                 style="background-color: <?php echo $userColor; ?>;" 
+                 title="Click to add profile image" onclick="triggerImageInput()">
+               <?php echo $userInitials; ?>
+            </div>
+         <?php endif; ?>
       </div>
 
 
@@ -616,8 +762,15 @@ button[type="button"]:hover {
                   value="<?php echo htmlspecialchars($user['nickname']); ?>">
             </div>
          </div>
+         
+         <!-- File input for profile image -->
+         <div class="form-group" style="text-align: center; margin: 20px 0;">
+            <label for="profile_image">Profile Image</label>
+            <input type="file" id="profileImageInput" name="profile_image" accept="image/*" style="margin-top: 10px;">
+         </div>
+         
          <div style="margin-top:15px;">
-            <button type="submit" class="edit-button" style="background-color:#28a745;">Save</button>
+            <button type="submit" class="edit-button" style="background-color:#28a745;">Save Changes</button>
             <button type="button" class="edit-button" style="background-color:#6c757d; margin-left:10px;"
                onclick="toggleEdit()">Cancel</button>
          </div>
@@ -651,10 +804,24 @@ button[type="button"]:hover {
          }
       }
 
-      // Optional: show preview of selected image
+      // Show preview of selected image
       document.getElementById('profileImageInput').addEventListener('change', function (event) {
-         const img = document.getElementById('profileImg');
-         img.src = URL.createObjectURL(event.target.files[0]);
+         const profileElement = document.getElementById('profileImg');
+         const file = event.target.files[0];
+         
+         if (file) {
+            // Create a new image element to replace the current profile element
+            const newImg = document.createElement('img');
+            newImg.id = 'profileImg';
+            newImg.src = URL.createObjectURL(file);
+            newImg.alt = 'Profile Image';
+            newImg.className = 'profile-img';
+            newImg.title = 'Click to change profile image';
+            newImg.onclick = function() { triggerImageInput(); };
+            
+            // Replace the current profile element (whether it's an image or circle) with the new image
+            profileElement.parentNode.replaceChild(newImg, profileElement);
+         }
       });
    </script>
 

@@ -1,6 +1,39 @@
 <?php
 session_start();
-require_once('../includes/connection.php'); // Your DB connection
+
+// Database connection
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$db_name = 'smartlib';
+
+// Create connection
+$conn = mysqli_connect($host, $username, $password, $db_name);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Select the database
+mysqli_select_db($conn, $db_name);
+
+// Create users table if not exists (with reset token fields)
+$user_table = "CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') DEFAULT 'user',
+    profile_image VARCHAR(255),
+    reset_token VARCHAR(255),
+    reset_expires DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+if (!mysqli_query($conn, $user_table)) {
+    die("Error creating users table: " . mysqli_error($conn));
+}
 
 $success = '';
 $error = '';
@@ -33,19 +66,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Prepare and send email
             $resetLink = "http://localhost/SmartLib/auth/reset_password.php?token=$token";
 
+            // For development environment - display reset link directly
+            // In production, you would configure SMTP settings and use mail() function
+            $success = "Password reset token generated! For development purposes, use this link: <br><br>
+                       <a href='$resetLink' target='_blank'>$resetLink</a><br><br>
+                       <small>In production, this link would be sent to your email address.</small>";
+            
+            // Uncomment below for production with proper SMTP configuration:
+            /*
             $subject = "Password Reset Request";
             $message = "Hello,\n\nYou requested a password reset. Click the link below to reset your password:\n\n$resetLink\n\nIf you didn't request this, you can ignore this email.\n\nThanks,\nSmartLib Team";
-
+            
             $headers = "From: no-reply@smartlib.com\r\n";
             $headers .= "Reply-To: no-reply@smartlib.com\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
+            
             if (mail($email, $subject, $message, $headers)) {
                 $success = "A reset link has been sent to your email.";
             } else {
                 $error = "Failed to send email. Please try again.";
             }
+            */
         } else {
             $error = "Email not found.";
             $stmt->close();
@@ -77,7 +119,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         button:hover {
             background-color: #0056b3;
         }
-        .msg { margin-top: 10px; color: green; }
+        .msg { 
+            margin-top: 10px; 
+            color: green; 
+            padding: 15px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+        }
+        .msg a {
+            color: #155724;
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+        }
+        .msg a:hover {
+            text-decoration: underline;
+        }
         .error { margin-top: 10px; color: red; }
     </style>
 </head>
@@ -86,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="form-box">
     <h2>Forgot Password</h2>
 
-    <?php if ($success) echo "<p class='msg'>" . htmlspecialchars($success) . "</p>"; ?>
+    <?php if ($success) echo "<div class='msg'>" . $success . "</div>"; ?>
     <?php if ($error) echo "<p class='error'>" . htmlspecialchars($error) . "</p>"; ?>
 
     <form method="post" novalidate>

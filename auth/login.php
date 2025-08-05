@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user['email'];
             $_SESSION['name'] = $user['name'];
-            header("Location: /LibProj/SmartLib");
+            header("Location: /SmartLib");
             exit();
         } else {
             $loginError = "❌ Incorrect password.";
@@ -161,7 +161,7 @@ a:hover {
         <button type="submit" name="login">Log In</button>
     </form>
 
-    <a href="forgot_password.php">Forgot your password?</a>
+    <a href="forget_password.php">Forgot your password?</a>
     <p style="text-align:center; margin-top:15px;">
         Don't have an account? <a href="signup.php">Sign Up</a>
     </p>
